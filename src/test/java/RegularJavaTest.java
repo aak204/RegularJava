@@ -9,10 +9,19 @@ public class RegularJavaTest {
         assertTrue(RegularJava.isValidIP("127.0.0.1"));
         assertTrue(RegularJava.isValidIP("192.168.1.1"));
         assertTrue(RegularJava.isValidIP("255.255.255.255"));
+        assertTrue(RegularJava.isValidIP("0.0.0.0"));
+        assertTrue(RegularJava.isValidIP("192.192.192.192"));
+        assertTrue(RegularJava.isValidIP("192.0.0.0"));
+    }
 
+    @Test
+    public void testNonValidIP() {
         assertFalse(RegularJava.isValidIP("1300.6.7.8"));
         assertFalse(RegularJava.isValidIP("256.256.256.256"));
         assertFalse(RegularJava.isValidIP("abc.def.gha.bcd"));
+        assertFalse(RegularJava.isValidIP("-1300.6.7.8"));
+        assertFalse(RegularJava.isValidIP("256.hh.hh.hh"));
+        assertFalse(RegularJava.isValidIP("1300.6.7.8"));
     }
 
     @Test
