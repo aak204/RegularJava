@@ -1,41 +1,64 @@
 package org.example;
-import java.util.regex.*;
 
+import java.util.regex.Pattern;
+
+/**
+ * Служебный класс, содержащий методы для проверки различных типов строк с использованием регулярных выражений.
+ */
 public class RegularJava {
 
-    // Проверка IP адреса
+    private static final Pattern IP_PATTERN = Pattern.compile(
+            "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+
+    private static final Pattern GUID_PATTERN = Pattern.compile(
+            "^(\\{?)[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}(\\}?)$");
+
+    private static final Pattern URL_PATTERN = Pattern.compile(
+            "^(https?://)?(www\\.)?([a-zA-Z0-9][a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(:\\d+)?(/[\\w\\-./]*)" +
+                    "*(\\?[\\w=&\\-]*)?(#[\\w\\-]*)?$");
+
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z0-9_]{8,}$");
+
+    /**
+     * Проверяет, является ли вводимая строка действительным IP-адресом.
+     *
+     * @param ip - строка для проверки.
+     * @return true, если строка является действительным IP-адресом, false в противном случае
+     */
     public static boolean isValidIP(String ip) {
-        String regex = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(ip);
-        return matcher.matches();
+        return IP_PATTERN.matcher(ip).matches();
     }
 
-    // Проверка GUID
+    /**
+     * Проверяет, является ли входная строка действительным GUID.
+     *
+     * @param guid строка для проверки.
+     * @return true, если строка является действительным GUID, false в противном случае
+     */
     public static boolean isValidGUID(String guid) {
-        String regex = "^?([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})?$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(guid);
-        return matcher.matches();
+        return GUID_PATTERN.matcher(guid).matches();
     }
 
-    // Проверка URL
+    /**
+     * Проверяет, является ли входная строка действительным URL.
+     *
+     * @param url строка для проверки.
+     * @return true, если строка является действительным URL, false в противном случае
+     */
     public static boolean isValidURL(String url) {
-        String regex = "^(https?://)?(www\\.)?([a-zA-Z0-9][a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(:\\d+)?(/[\\w\\-./]*)" +
-                "*(\\?[\\w=&\\-]*)?(#[\\w\\-]*)?$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(url);
-        return matcher.matches();
+        return URL_PATTERN.matcher(url).matches();
     }
 
-    // Проверка пароля
+    /**
+     * Проверяет, является ли вводимая строка правильным паролем.
+     * Правильный пароль должен содержать не менее 8 символов, включая как минимум одну заглавную букву, одну строчную букву и одну цифру.
+     *
+     * @param password строка для проверки.
+     * @return true, если строка является правильным паролем, false в противном случае
+     */
     public static boolean isValidPassword(String password) {
-        String regexLength = "^[a-zA-Z0-9_]{8,}$";
-        String regexLowercase = ".*[a-z].*";
-        String regexUppercase = ".*[A-Z].*";
-        String regexDigit = ".*[0-9].*";
-
-        return password.matches(regexLength) && password.matches(regexLowercase) && password.matches(regexUppercase) && password.matches(regexDigit);
+        return PASSWORD_PATTERN.matcher(password).matches();
     }
 }
